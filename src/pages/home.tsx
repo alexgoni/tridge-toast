@@ -1,6 +1,8 @@
 import classNames from "classnames/bind";
 import styles from "./home.module.scss";
 import { useState } from "react";
+import type { ToastPosition, ToastStatus } from "../components/Toast/types";
+import { useToast } from "../components/Toast/ToastProvider";
 
 const TOAST_POSITIONS = [
   "top-left",
@@ -10,14 +12,16 @@ const TOAST_POSITIONS = [
   "bottom-center",
   "bottom-right",
 ] as const;
-type TToastPosition = (typeof TOAST_POSITIONS)[number];
+const TOAST_STATUS = ["success", "warning", "error"] as const;
 
 const cx = classNames.bind(styles);
 
 export default function Home() {
-  const [position, setPosition] = useState<TToastPosition>("top-right");
+  const [position, setPosition] = useState<ToastPosition>("top-right");
   const [delay, setDelay] = useState(3000);
   const [message, setMessage] = useState("Toast Message");
+  const [status, setStatus] = useState<ToastStatus>("success");
+  const { showToastMessage } = useToast();
 
   return (
     <>
@@ -38,10 +42,28 @@ export default function Home() {
                       value={pos}
                       checked={position === pos}
                       onChange={(e) =>
-                        setPosition(e.target.value as TToastPosition)
+                        setPosition(e.target.value as ToastPosition)
                       }
                     />{" "}
                     {pos}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className={cx("option")}>
+              <div className={cx("option-title")}>Status</div>
+              <div className={cx("radio-group")}>
+                {TOAST_STATUS.map((each) => (
+                  <label key={each}>
+                    <input
+                      type="radio"
+                      name="status"
+                      value={each}
+                      checked={status === each}
+                      onChange={(e) => setStatus(e.target.value as ToastStatus)}
+                    />{" "}
+                    {each}
                   </label>
                 ))}
               </div>
@@ -71,7 +93,14 @@ export default function Home() {
           </div>
 
           <div className={cx("toast-btn-wrapper")}>
-            <button type="button">Toast Button</button>
+            <button
+              type="button"
+              onClick={() =>
+                showToastMessage(message, { position, delay, status })
+              }
+            >
+              Toast Button
+            </button>
           </div>
         </div>
       </div>
