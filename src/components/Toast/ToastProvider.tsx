@@ -6,6 +6,7 @@ import Toast from "./Toast";
 
 interface IToastContext {
   showToastMessage: ShowToastMessage;
+  clearAll: () => void;
 }
 
 const ToastContext = createContext<IToastContext | null>(null);
@@ -34,6 +35,8 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   };
 
+  const clearAll = () => setToasts([]);
+
   const positionGroups = toasts.reduce<Record<ToastPosition, ToastItem[]>>(
     (acc, toast) => {
       if (!acc[toast.position]) {
@@ -53,7 +56,7 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <ToastContext.Provider value={{ showToastMessage }}>
+    <ToastContext.Provider value={{ showToastMessage, clearAll }}>
       {children}
       {Object.entries(positionGroups).map(([position, group]) =>
         createPortal(

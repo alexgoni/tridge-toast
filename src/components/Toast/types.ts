@@ -11,7 +11,7 @@ export type ToastPosition =
 export interface ToastOptions {
   status?: ToastStatus;
   position?: ToastPosition;
-  delay?: number;
+  delay?: number | null;
 }
 
 export type ShowToastMessage = (

@@ -6,7 +6,7 @@
 - [x] showToastMessage 함수를 만들고 Button을 통해 실행 가능하도록 하여야 한다.
 - [x] Toast Message에 마우스를 올려놓는 경우 autoClose delay를 일시 정지한다.
 - [x] autoClose의 진행상태를 보여주는 Progress bar를 제공한다
-- [] Clear all Button을 제공한다.
+- [x] Clear all Button을 제공한다.
 - [x] Toast Message의 Status variation(Success, Warning, Error)을 제공한다.
 
 ---
@@ -16,10 +16,12 @@
 - [x] 기본화면
 - [x] Toast
 - [x] 연결
-- [] clearAll, delay: null
+- [x] clearAll, delay: null
 - [] 디자인 변경
+- [] 파비콘 / primary color
 
 - [] 코드 추가
+- [] 최적화
 
 ---
 

@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./home.module.scss";
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import type { ToastPosition, ToastStatus } from "../components/Toast/types";
 import { useToast } from "../components/Toast/ToastProvider";
 
@@ -18,10 +18,29 @@ const cx = classNames.bind(styles);
 
 export default function Home() {
   const [position, setPosition] = useState<ToastPosition>("top-right");
-  const [delay, setDelay] = useState(3000);
-  const [message, setMessage] = useState("Toast Message");
   const [status, setStatus] = useState<ToastStatus>("success");
-  const { showToastMessage } = useToast();
+  const [delay, setDelay] = useState<number | null>(3000);
+  const [lastValidDelay, setLastValidDelay] = useState(3000);
+  const [isDelayNull, setIsDelayNull] = useState(false);
+  const [message, setMessage] = useState("Toast Message");
+  const { showToastMessage, clearAll } = useToast();
+
+  const handleDelayChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    setLastValidDelay(value);
+    if (!isDelayNull) {
+      setDelay(value);
+    }
+  };
+
+  const handleDelayNullToggle = () => {
+    if (isDelayNull) {
+      setDelay(lastValidDelay);
+    } else {
+      setDelay(null);
+    }
+    setIsDelayNull((prev) => !prev);
+  };
 
   return (
     <>
@@ -34,18 +53,18 @@ export default function Home() {
             <div className={cx("option")}>
               <div className={cx("option-title")}>Position</div>
               <div className={cx("radio-group")}>
-                {TOAST_POSITIONS.map((pos) => (
-                  <label key={pos}>
+                {TOAST_POSITIONS.map((each) => (
+                  <label key={each}>
                     <input
                       type="radio"
                       name="position"
-                      value={pos}
-                      checked={position === pos}
+                      value={each}
+                      checked={position === each}
                       onChange={(e) =>
                         setPosition(e.target.value as ToastPosition)
                       }
                     />{" "}
-                    {pos}
+                    {each}
                   </label>
                 ))}
               </div>
@@ -74,11 +93,20 @@ export default function Home() {
               <input
                 type="number"
                 className={cx("delay-input")}
-                value={delay}
-                onChange={(e) => setDelay(Number(e.target.value))}
+                value={delay === null ? "" : delay}
+                onChange={handleDelayChange}
                 step={1000}
                 min={0}
+                disabled={isDelayNull}
               />
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isDelayNull}
+                  onChange={handleDelayNullToggle}
+                />
+                Set delay to null
+              </label>
             </div>
 
             <div className={cx("option")}>
@@ -92,7 +120,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={cx("toast-btn-wrapper")}>
+          <div className={cx("btn-container")}>
+            <button type="button" onClick={clearAll}>
+              Clear All
+            </button>
             <button
               type="button"
               onClick={() =>

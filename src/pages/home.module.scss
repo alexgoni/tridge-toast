@@ -62,11 +62,12 @@
     }
   }
 
-  .toast-btn-wrapper {
+  .btn-container {
     width: 100%;
     display: flex;
     justify-content: flex-end;
     margin-top: 8px;
+    gap: 4px;
 
     button {
       padding: 8px 16px;
