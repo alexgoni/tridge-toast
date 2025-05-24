@@ -17,8 +17,8 @@
 - [x] Toast
 - [x] 연결
 - [x] clearAll, delay: null
-- [] 디자인 변경
-- [] 파비콘 / primary color
+- [x] 디자인 변경
+- [x] 파비콘 / primary color
 
 - [] 코드 추가
 - [] 최적화

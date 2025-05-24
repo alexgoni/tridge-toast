@@ -104,6 +104,7 @@ export default function Home() {
                   type="checkbox"
                   checked={isDelayNull}
                   onChange={handleDelayNullToggle}
+                  className={cx("delay-checkbox")}
                 />
                 Set delay to null
               </label>
