@@ -30,7 +30,13 @@
 
     .controls {
       display: flex;
-      gap: 48px;
+      flex-direction: column;
+      gap: 24px;
+
+      @media (min-width: 769px) {
+        flex-direction: row;
+        gap: 48px;
+      }
 
       .option {
         display: flex;
@@ -76,7 +82,7 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    margin-top: 8px;
+    margin-top: 16px;
     gap: 4px;
 
     button {
